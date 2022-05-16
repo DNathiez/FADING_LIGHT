@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a7687ea59229d41ab2c07b9df03234, type: 3}
+  m_Name: "Rage D\xE9moniaque"
+  m_EditorClassIdentifier: 
+  capacityName: "Rage d\xE9moniaque"
+  cooldown: 3
+  maxRange: 100
+  particleEffect: {fileID: 6607302115411617113, guid: 855fa3aa489b8484b91d8454ace68b93, type: 3}
+  buffTarget: 1
+  overtimeEffect: 1
+  effectTime: 10
+  buffedData: 0
+  value: 2
