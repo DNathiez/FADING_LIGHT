@@ -21,6 +21,11 @@ public class PLAYER_MANAGER : MonoBehaviour
     public int maxMana;
     public int currentMana; //
     
+    [Header("Level")]
+    public int currentLevel;
+    public int expRequirement;
+    public int expCurrent;
+    
     [Header("Movement")] public float speed;
     public float currentSpeed; //
     Vector3 direction; //
@@ -40,6 +45,7 @@ public class PLAYER_MANAGER : MonoBehaviour
     [Serializable] public class SpellList
     {
         public CAPACITY spell;
+        public int levelRequirement;
         public bool onCooldown;
     }
     
@@ -147,6 +153,11 @@ public class PLAYER_MANAGER : MonoBehaviour
             {
                 if (!s.onCooldown)
                 {
+                    if (currentTarget == null)
+                    {
+                        currentTarget = transform;
+                    }
+                    
                     s.spell.UseCapacity(this, currentTarget);
                     StartCoroutine(SetCooldown(s));
                 }

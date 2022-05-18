@@ -24,7 +24,8 @@ public class CAPACITY_BUFF : CAPACITY
         {
             case BuffTarget.Self:
                 //appliquer le buff sur soi
-
+                target = player.transform;
+                
                 switch (buffedData)
                 {
                     case BuffedData.Health:
@@ -32,7 +33,8 @@ public class CAPACITY_BUFF : CAPACITY
                         Debug.Log("player got a health boost of " + value);
                         if (particleEffect != null)
                         {
-                            Instantiate(particleEffect, new Vector3(player.transform.position.x, particleEffect.gameObject.transform.position.y, player.transform.position.z), particleEffect.gameObject.transform.rotation);
+                            var vfx = Instantiate(particleEffect, new Vector3(player.transform.position.x, particleEffect.gameObject.transform.position.y, player.transform.position.z), particleEffect.gameObject.transform.rotation);
+                            vfx.transform.SetParent(target);
                         }
                         break;
                     
