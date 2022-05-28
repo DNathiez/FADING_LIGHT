@@ -7,7 +7,9 @@ using UnityEngine.UI;
 
 public class HUD_MANAGER : MonoBehaviour
 {
-    private PLAYER_MANAGER player;
+    public static HUD_MANAGER instance;
+    
+    private CHARACTER_CONTROLLER player;
 
     [Header("Player State Interface")]
     public Image healthBar;
@@ -20,18 +22,24 @@ public class HUD_MANAGER : MonoBehaviour
 
     private void Awake()
     {
-        player = FindObjectOfType<PLAYER_MANAGER>();
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+        
+        player = FindObjectOfType<CHARACTER_CONTROLLER>();
     }
 
-    private void Update()
+    public void UpdateTargetHUD()
     {
-        healthBar.fillAmount = (float)player.currentHealth / (float)player.maxHealth;
-        manaBar.fillAmount = (float) player.currentMana / (float) player.maxMana;
-
-        if (player.currentTarget != null && player.currentTarget.CompareTag("Targetable"))
+        if (player.target != null && player.target.CompareTag("Targetable"))
         {
-            ENEMY enemy = player.currentTarget.GetComponent<ENEMY>();
-            PNJ ally = player.currentTarget.GetComponent<PNJ>();
+            ENEMY enemy = player.target.GetComponent<ENEMY>();
+            PNJ ally = player.target.GetComponent<PNJ>();
             
             if (enemy)
             {

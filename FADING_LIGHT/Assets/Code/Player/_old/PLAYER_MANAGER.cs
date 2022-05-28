@@ -32,7 +32,7 @@ public class PLAYER_MANAGER : MonoBehaviour
 
     public float jumpSpeed;
     public float jumpLenght;
-    public bool canJump; //
+    public bool canJump;
 
     public float rotationSpeed;
     public bool rotate; //
@@ -130,10 +130,7 @@ public class PLAYER_MANAGER : MonoBehaviour
 
     void Jump(Vector3 jumpDir)
     {
-        if (canJump)
-        {
-            rb.AddForce(jumpDir * jumpSpeed, ForceMode.Impulse);
-        }
+        
     }
 
     void Rotate(Vector3 rotation)
