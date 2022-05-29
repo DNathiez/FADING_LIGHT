@@ -11,6 +11,31 @@ public class CHARACTER_CONTROLLER : MonoBehaviour
    
    [Header("Input")] 
    private Vector2 mousePosition;
+
+   [Header("State")] 
+   public CLASS currentClass;
+   public int currentLevel;
+   public int currentExperience;
+   private int experienceNecessary;
+   
+   public int currentHealth;
+
+   [Header("Stats")]
+   public int attackPower;
+   public int magicPower;
+   public int physicalResistance;
+   public int magicalResistance;
+   public int cooldownReduce;
+   public int endurance;
+   public int armor;
+   public int strength;
+   public int agility;
+   public int intellect;
+   public int haste;
+   public int mastery;
+   public int spirit;
+   public int versatility;
+   public int criticalStrike;
    
    [Header("Movement")]
    public float currentSpeed;
@@ -28,10 +53,26 @@ public class CHARACTER_CONTROLLER : MonoBehaviour
    public float jumpSpeed;
    public float jumpLenght;
    
+   [Header("Spell")]
+   public List<SpellList> spellList;
 
+   [Header("Gear")] 
+   public ITEM_WEAPON currentWeapon;
+
+   [Serializable] public class SpellList
+   {
+      public CAPACITY spell;
+      public int levelRequirement;
+      public bool onCooldown;
+   }
    private void Awake()
    {
       rb = GetComponent<Rigidbody>();
+   }
+
+   private void Start()
+   {
+      Initialize();
    }
 
    private void Update()
@@ -82,6 +123,41 @@ public class CHARACTER_CONTROLLER : MonoBehaviour
       }
       
       //if(GetComponent<SpecialGround>) set the special ground modification to the player moving behaviour
+   }
+   
+   //Using Method
+   public void UseCapacity(CAPACITY capacityToUse)
+   {
+      foreach (SpellList s in spellList)
+      {
+         if (s.spell == capacityToUse)
+         {
+            if (!s.onCooldown)
+            {
+               if (target == null)
+               {
+                  target = transform;
+               }
+                    
+               s.spell.UseCapacity(this, target);
+               StartCoroutine(SetCooldown(s));
+            }
+            else
+            {
+               Debug.Log(s.spell + " is already on cooldown");
+            }
+         }
+      }
+   }
+
+    
+   IEnumerator SetCooldown(SpellList spell)
+   {
+      Debug.Log(spell.spell.name + " on cooldown, is cooldown is about " + spell.spell.cooldown + " seconds");
+      spell.onCooldown = true;
+      yield return new WaitForSeconds(spell.spell.cooldown);
+      Debug.Log(spell.spell.name + " cooldown is over");
+      spell.onCooldown = false;
    }
    
    
@@ -168,5 +244,57 @@ public class CHARACTER_CONTROLLER : MonoBehaviour
       
    }
    
+   //Gearing
+   void ChangeWeapon(ITEM_WEAPON newWeapon)
+   {
+      foreach (CLASS.WeaponUsable wu in currentClass.weaponsUsable)
+      {
+         if (newWeapon.weaponType == wu.weaponType && newWeapon.handType == wu.handType)
+         {
+            currentWeapon = newWeapon;
+         }
+         else
+         {
+            Debug.LogError("You can't equip this.");
+         }
+      }
+   }
+
+   void ChangeGear()
+   {
+      
+   }
+
+   void UseConsumable()
+   {
+      
+   }
    
+   //Maths
+   void CalculateStats()
+   {
+      attackPower = Mathf.FloorToInt(strength * ((currentWeapon.minAttackDamage + currentWeapon.maxAttackDamage) / 2) * currentClass.apFactor);
+      magicPower = Mathf.FloorToInt(intellect * ((currentWeapon.minAttackDamage + currentWeapon.maxAttackDamage) / 2) * currentClass.mpFactor);
+      physicalResistance = Mathf.FloorToInt((armor + versatility + mastery) * currentClass.physicResistFactor);
+      magicalResistance = Mathf.FloorToInt((armor + versatility + spirit) * currentClass.magicResistFactor);
+   }
+   
+   //Initialiaze
+
+   void Initialize()
+   {
+      //Set class stats
+      endurance = currentClass.endurance;
+      armor = currentClass.armor;
+      strength = currentClass.strength;
+      agility = currentClass.agility;
+      intellect = currentClass.intellect;
+      haste = currentClass.haste;
+      mastery = currentClass.mastery;
+      spirit = currentClass.spirit;
+      versatility = currentClass.versatility;
+      criticalStrike = currentClass.criticalStrike;
+      
+      CalculateStats();
+   }
 }

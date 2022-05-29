@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capacityName: "Rage d\xE9moniaque"
   cooldown: 3
+  baseValue: 0
   maxRange: 100
   particleEffect: {fileID: 6607302115411617113, guid: 855fa3aa489b8484b91d8454ace68b93, type: 3}
   buffTarget: 0
   overtimeEffect: 1
   effectTime: 10
   buffedData: 0
-  value: 2
+  newtest: 0000000001000000

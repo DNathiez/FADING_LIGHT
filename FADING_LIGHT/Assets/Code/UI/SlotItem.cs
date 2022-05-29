@@ -16,13 +16,13 @@ public class SlotItem : MonoBehaviour, IDropHandler
     
     public InputAction actionButton;
 
-    private PLAYER_MANAGER player;
+    private CHARACTER_CONTROLLER player;
 
     private void Awake()
     {
         canvasG = GetComponent<CanvasGroup>();
         button = GetComponent<Button>();
-        player = FindObjectOfType<PLAYER_MANAGER>();
+        player = FindObjectOfType<CHARACTER_CONTROLLER>();
     }
 
     private void OnEnable()

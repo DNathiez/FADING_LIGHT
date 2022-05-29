@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f7e7a514f53904ebc5a5dd670b7226, type: 3}
+  m_Name: 01_Frostmourne
+  m_EditorClassIdentifier: 
+  itemName: Frostmourne
+  itemID: 01
+  itemDescription: Sword of the mighty Lich King.
+  quality: 5
+  buyPrice: 4
+  sellPrice: 0
+  itemStats:
+  - stats: 2
+    value: 111
+  - stats: 5
+    value: 34
+  - stats: 6
+    value: 12
+  minAttackDamage: 1150
+  maxAttackDamage: 1250
+  attackSpeed: 1.8
+  handType: 1
+  weaponType: 1

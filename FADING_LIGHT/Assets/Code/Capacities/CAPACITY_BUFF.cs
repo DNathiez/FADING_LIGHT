@@ -6,31 +6,45 @@ using UnityEngine;
 public class CAPACITY_BUFF : CAPACITY
 {
     public BuffTarget buffTarget;
-    public enum BuffTarget{Self, Target, Group}
+    public enum BuffTarget{SELF, TARGET, GROUP}
 
     public bool overtimeEffect;
     public float effectTime;
 
     public BuffedData buffedData;
-    public enum BuffedData{Health, Speed}
+    public BuffedData[] newtest; //switch buffedData into array to apply on all
 
-    public float value;
-    
-    public override void UseCapacity(PLAYER_MANAGER player, Transform target)
+    public enum BuffedData
+    {
+        HEALTH, 
+        SPEED,
+        ENDURANCE,
+        ARMOR,
+        STRENGTH,
+        AGILITY,
+        INTELLECT,
+        HASTE,
+        MASTERY,
+        SPIRIT,
+        VERSATILITY,
+        CRITICAL_STRIKE
+    }
+
+    public override void UseCapacity(CHARACTER_CONTROLLER player, Transform target)
     {
         float distanceToTarget = Vector3.Distance(player.transform.position, target.position);
         
         switch (buffTarget)
         {
-            case BuffTarget.Self:
+            case BuffTarget.SELF:
                 //appliquer le buff sur soi
                 target = player.transform;
                 
                 switch (buffedData)
                 {
-                    case BuffedData.Health:
-                        player.currentHealth += Mathf.FloorToInt(value);
-                        Debug.Log("player got a health boost of " + value);
+                    case BuffedData.HEALTH:
+                        player.currentHealth += Mathf.FloorToInt(baseValue);
+                        Debug.Log("player got a health boost of " + baseValue);
                         if (particleEffect != null)
                         {
                             var vfx = Instantiate(particleEffect, new Vector3(player.transform.position.x, particleEffect.gameObject.transform.position.y, player.transform.position.z), particleEffect.gameObject.transform.rotation);
@@ -38,8 +52,8 @@ public class CAPACITY_BUFF : CAPACITY
                         }
                         break;
                     
-                    case BuffedData.Speed:
-                        player.currentSpeed += value;
+                    case BuffedData.SPEED:
+                        player.currentSpeed += baseValue;
 
                         if (overtimeEffect)
                         {
@@ -52,19 +66,20 @@ public class CAPACITY_BUFF : CAPACITY
                 
                 break;
             
-            case BuffTarget.Target:
+            case BuffTarget.TARGET:
                 //si la cible est allié, alors appliqué l'effet du buff
                 switch (buffedData)
                 {
-                    case BuffedData.Health :
+                    case BuffedData.HEALTH :
+                        
                         if (target != null && target.gameObject.GetComponent<PNJ>())
                         {
                             PNJ allyTarget = target.gameObject.GetComponent<PNJ>();
                     
                             if (distanceToTarget < maxRange)
                             {
-                                allyTarget.currentHealth += Mathf.FloorToInt(value);
-                                Debug.Log(target.name + " got heal by " + value);
+                                allyTarget.currentHealth += Mathf.FloorToInt(baseValue);
+                                Debug.Log(target.name + " got heal by " + baseValue);
                             }
                         }
                         break;
@@ -74,7 +89,7 @@ public class CAPACITY_BUFF : CAPACITY
                 
                 break;
             
-            case BuffTarget.Group:
+            case BuffTarget.GROUP:
                 //appliquer l'effet à toutes les cibles dans le groupe
                 
                 break;
